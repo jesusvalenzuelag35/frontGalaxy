@@ -1,0 +1,95 @@
+﻿@page "/registrando"
+@using DTO;
+@using DTO.Response;
+@using Celulares.UI.Proxy.Interfaces;
+
+@inject SweetAlertService Swal
+@inject NavigationManager Navegador
+@inject IOrdenesService ordenesService
+
+<h3>Ordenes</h3>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Todas las ordenes</h5>
+        
+
+        <!-- Table with stripped rows -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Folio orden</th>
+                    <th scope="col">Tipo Equipo</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Observaciones</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in listaOrdenes)
+                {
+                    <tr>
+                        <th scope="row">@item.numeroOrden</th>
+                        <td>@item.FolioOrden</td>
+                        <td>@item.TipoEquipo</td>
+                        <td>@item.Marca</td>
+                        <td>@item.Modelo</td>
+                        <td>@item.Color</td>
+                        <td>@item.Observaciones</td>
+                        <td>
+                            
+                            <button class="btn btn-danger btn-sm" @onclick="() => OnShowEliminar(item)"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+                
+                
+            </tbody>
+        </table>
+        <!-- End Table with stripped rows -->
+
+    </div>
+</div>
+
+@code {
+   
+    public List<OrdenesDTO> listaOrdenes = new List<OrdenesDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaOrdenes = await ordenesService.GetOrdenes();
+        //await Swal.FireAsync("hola");
+    }
+
+    private async Task OnShowEliminar(OrdenesDTO item)
+    {
+        try
+        {
+            var respuesta = await Swal.FireAsync(new SweetAlertOptions()
+                {
+                    Text = "¿Estas seguro de eliminar esta orden?",
+                    Title = "Eliminar Orden",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true
+                });
+
+            if (respuesta.IsConfirmed)
+            {
+                
+                var resultado = await ordenesService.Eliminar(item.numeroOrden);
+                listaOrdenes = await ordenesService.GetOrdenes();
+                
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            
+        }
+    }
+
+}

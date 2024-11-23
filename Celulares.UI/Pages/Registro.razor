@@ -1,0 +1,81 @@
+﻿@page "/registro"
+
+@using DTO;
+@using Celulares.UI.Proxy.Interfaces;
+@inject SweetAlertService Swal
+@inject NavigationManager Navegador
+@inject IUsuarioService usuario
+<section class="section">
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                            <h1 class="card-title">Registro</h1>              
+                    
+
+                    <!-- Vertical Form -->
+                    <EditForm class="row g-3 justify-content-center" Model="Request" OnSubmit="OnGuardar">
+                        <div class="col-12 col-lg-8">
+                            <label for="nombre" class="form-label">Ingrese su nombre</label>
+                            <input type="text" class="form-control"  @bind="Request.nombre">
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <label for="nombre" class="form-label">Ingrese su apellido</label>
+                            <input type="text" class="form-control"  @bind="Request.apellido">
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <label for="nombre" class="form-label">Ingrese su número de celular</label>
+                            <input type="number" class="form-control"  @bind="Request.celular">
+                        </div>
+                        
+                        <div class="col-12 col-lg-8">
+                            <label for="inputEmail4" class="form-label">Email</label>
+                            <input type="email" class="form-control" @bind="Request.correo">
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <label for="inputPassword4" class="form-label">Password</label>
+                            <input type="password" class="form-control" @bind="Request.password">
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <label for="passwordConfirm" class="form-label">Confirmar Password</label>
+                            <input type="password" class="form-control"  @bind="Request.confirmPassword">
+                        </div>
+                       
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Registrar usuario</button>                            
+                            <a class="btn btn-secondary" href="/" role="button">Cancelar</a>
+                        </div>
+                    </EditForm><!-- Vertical Form -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+
+    public UsuarioDTO Request { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+
+    private async Task OnGuardar()
+    {
+        var resultado = await usuario.crearUsuario(Request);
+        if (resultado != null)
+        {
+            await Swal.FireAsync("Usuario creado correctamente","Exito");
+            Navegador.NavigateTo("/");
+        }
+        else
+        {
+            await Swal.FireAsync("Oops...", "Algo salio mal!", "error");
+        }
+    }
+
+
+}

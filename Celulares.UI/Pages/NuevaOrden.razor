@@ -1,0 +1,255 @@
+﻿@page "/nueva/orden"
+@using DTO
+@using DTO.Request
+@using DTO.Response
+@using Celulares.UI.Proxy.Interfaces;
+@inject SweetAlertService Swal
+@inject NavigationManager Navegador
+@inject IFoliador foliador;
+@inject IOrdenesService ordenesService;
+@inject IJSRuntime JSRuntime
+<div class="col-12">
+    <div class="card">
+        <style>
+            .margen {
+                margin-top: 10px;
+                align-content: center;
+            }
+        </style>
+
+        
+
+        <div class="card-body">
+            <h1 class="card-title">Nueva Orden</h1>
+            <EditForm Model="Request" OnSubmit="OnGuardar">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Numero de orden</label>
+                                <InputText class="form-control" @bind-Value="Request.FolioOrden" disabled></InputText>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Seleccione el tipo de equipo</label>
+                                <InputSelect @bind-Value="Request.TipoEquipo" class="form-control">
+                                    <option>-Seleccione una opcion-</option>
+                                    @foreach (var tipoEquipo in tipoDeEquipoaReparar)
+                                    {
+                                        <option value="@tipoEquipo.NombreEquipo">@tipoEquipo.NombreEquipo</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-3">
+                            <label>Marca</label>
+                            <InputText class="form-control" @bind-Value="Request.Marca"></InputText>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label>Modelo</label>
+                            <InputText class="form-control" @bind-Value="Request.Modelo"></InputText>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label>Color</label>
+                            <InputText class="form-control" @bind-Value="Request.Color"></InputText>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label>Observaciones del equipo</label>
+                            <InputText class="form-control" @bind-Value="Request.Observaciones"></InputText>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label>Condiciones del equipo</label>
+                        </div>
+                        <div class="col-2">
+                            <label>Estetica</label>
+                        </div>
+                        <div class="col-4">
+                            <label><span>Detalles del servicio</span></label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        
+                        <div class="col-lg-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkEncendido" @bind="Request.encendido" />
+                                <label for="checkEncendido" class="form-check-label">Encendido</label>
+                            </div>
+                             <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkApagado" @bind="Request.apagado" />
+                                <label for="checkApagado" class="form-check-label">Apagado</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkManipulado" @bind="Request.manipulado" />
+                                <label for="checkManipulado" class="form-check-label">Manipulado</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkMojado" @bind="Request.mojado" />
+                                <label for="checkMojado" class="form-check-label">Mojado</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkRoto" @bind="Request.roto" />
+                                <label for="checkRoto" class="form-check-label">Roto</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkIncompleto" @bind="Request.incompleto" />
+                                <label for="checkIncompleto" class="form-check-label">Incompleto</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-2">
+                            
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radioBueno" @bind="selectedBueno" />
+                                <label for="radioBueno" class="form-check-label">Bueno</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radioRegular" @bind="selectedRegular" />
+                                <label for="radioRegular" class="form-check-label">Regular</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radioMalo" @bind="selectedMalo" />
+                                <label for="radioMalo" class="form-check-label">Malo</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" @bind="Request.detalleDelServicio"></textarea>
+                            
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-6">
+                            <label>Tipo de bloqueo</label>
+                            <InputSelect @bind-Value="Request.tipobloqueo" class="form-control">
+                                <option>seleccione una opción</option>
+                                @foreach (var tipoBloqueo in tipodeBloqueo)
+                                {
+                                    <option value="@tipoBloqueo.TipoBloqueo">@tipoBloqueo.TipoBloqueo</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        
+                        <div class="col-lg-3">
+                            <label>Costo total</label>
+                            <input type="number" class="form-control" @bind="Request.costoTotal" />
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Anticipo</label>                            
+                            <input type="number" class="form-control" @bind="Request.anticipo" />
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row justify-content-center mt-2">
+                            <div class="col-lg-12">
+                                
+                                <div class="d-grid gap-2 col-10 d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block @botonActivo">
+                                        Guardar orden de servicio
+                                    </button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </EditForm>
+
+
+           
+            
+
+        </div>
+
+    </div>
+</div><!-- End Reports -->
+
+@code {
+
+    public CrearOrdenRequestDTO Request { get; set; } = new();
+    public FoliadorDTO Foliador { get; set; } = new();
+
+    public String botonActivo { get; set; }
+    public String numeroDeOrden { get; set; }
+
+    private bool checkEncendido { get; set; }
+    private bool checkApagado { get; set; }
+    private bool checkManipulado { get; set; }
+    private bool checkMojado { get; set; }
+    private bool checkRoto { get; set; }
+    private bool checkIncompleto { get; set; }
+
+    public bool selectedBueno { get; set; }
+    public bool selectedRegular { get; set; }
+    public bool selectedMalo { get; set; }
+
+    protected override async void OnInitialized()
+    {
+        string idOwner = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "usuarioid");
+
+
+
+        Foliador = await foliador.foliador();
+        Request.FolioOrden = Foliador.folio;
+        Request.IdOwner = int.Parse(idOwner);
+
+
+
+    }
+
+
+    private async Task OnGuardar()
+    {
+        String idOwner = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "usuarioid");
+        bool dato = false;
+        Request.IdOwner = int.Parse(idOwner);
+        Request.FolioOrden = Foliador.folio;
+        dato = checkApagado;
+        if (selectedBueno)
+        {
+            Request.estetica = "BUENO";
+        }else if(selectedRegular)
+        {
+            Request.estetica = "REGULAR";
+        }else if(selectedMalo)
+        {
+            Request.estetica = "MALO";
+        }
+        else
+        {
+
+            Request.estetica = "REGULAR";
+        }
+        var resultado = await ordenesService.guardarOrden(Request);
+
+        if (resultado == "Orden creada exitosamente")
+        {
+            await Swal.FireAsync("Exito", "Orden creada exitosamente", "success");
+            Navegador.NavigateTo("/registrando");
+
+        }
+    }
+
+    private List<TipoEquipo> tipoDeEquipoaReparar = new()
+    {
+        new TipoEquipo { Id = 1, NombreEquipo = "Celular" },
+        new TipoEquipo { Id = 2, NombreEquipo = "Tablet" },
+        
+    };
+
+    private List<TipoBloqueoDTO> tipodeBloqueo = new()
+    {
+        new TipoBloqueoDTO { TipoBloqueo= "PIN"},
+        new TipoBloqueoDTO { TipoBloqueo= "PATRÓN"},
+        new TipoBloqueoDTO { TipoBloqueo= "CONTRASEÑA"}
+    };
+    private String selectedtipodeBloqueo;
+
+}

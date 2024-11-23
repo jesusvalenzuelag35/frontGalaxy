@@ -1,0 +1,11 @@
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\bin\Release\net8.0\DTO.deps.json
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\bin\Release\net8.0\DTO.dll
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\bin\Release\net8.0\DTO.pdb
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\obj\Release\net8.0\DTO.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\obj\Release\net8.0\DTO.AssemblyInfoInputs.cache
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\obj\Release\net8.0\DTO.AssemblyInfo.cs
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\obj\Release\net8.0\DTO.csproj.CoreCompileInputs.cache
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\obj\Release\net8.0\DTO.dll
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\obj\Release\net8.0\refint\DTO.dll
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\obj\Release\net8.0\DTO.pdb
+C:\Users\daniel.valenzuela\source\repos\celulares\DTO\obj\Release\net8.0\ref\DTO.dll

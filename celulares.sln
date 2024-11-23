@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celulares.UI", "Celulares.UI\Celulares.UI.csproj", "{091D8D0E-0A2D-4CD9-8B37-190A40A4C0A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{6A288A93-5ED1-416B-A437-8D66E687990A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{091D8D0E-0A2D-4CD9-8B37-190A40A4C0A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091D8D0E-0A2D-4CD9-8B37-190A40A4C0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091D8D0E-0A2D-4CD9-8B37-190A40A4C0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091D8D0E-0A2D-4CD9-8B37-190A40A4C0A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A288A93-5ED1-416B-A437-8D66E687990A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A288A93-5ED1-416B-A437-8D66E687990A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A288A93-5ED1-416B-A437-8D66E687990A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A288A93-5ED1-416B-A437-8D66E687990A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED07BF4D-5D7B-4235-BA5C-E2054931D9F9}
+	EndGlobalSection
+EndGlobal

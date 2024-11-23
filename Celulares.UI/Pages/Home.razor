@@ -1,0 +1,97 @@
+﻿@page "/"
+@using DTO.Request
+@using Celulares.UI.Proxy.Interfaces;
+@inject SweetAlertService Swal
+@inject NavigationManager Navegador
+@inject IUsuarioService usuario
+@inject IJSRuntime JSRuntime
+<style>
+    .loginlabel {
+        margin-bottom: 5px;
+    }
+</style>
+<section class="section dashboard">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>Iniciar Sesión</h4>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="card-body">
+                                <EditForm Model="Request" OnValidSubmit="OnLogin">
+                                    <DataAnnotationsValidator/>
+                                    <div class="form-group mt-3">
+                                        <label for="email" class="loginlabel mt-2">Correo Electrónico</label>
+                                        <InputText class="form-control" @bind-Value="Request.Usuario"></InputText>
+                                        <ValidationMessage For="() => Request.Usuario"></ValidationMessage>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label for="password" class="loginlabel mt-2">Contraseña</label>
+                                        <InputText type="password" class="form-control" @bind-Value="Request.password" />  
+                                        <ValidationMessage For="() => Request.password"></ValidationMessage>
+                                    </div>
+                                    <div class="row justify-content-center mt-2">
+                                        <div class="col-4">
+                                            <div class=" col-10 d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Iniciar sesión
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer text-center">
+                        <small>¿Aún no tienes cuenta? <a href="registro">Regístrate aquí</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+
+    public LoginRequestDTO Request { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    private async Task OnLogin()
+    {
+        if (Request.Usuario !=null && Request.password != null)
+        {
+            var resultado = await usuario.LoginUsuario(Request);
+            if (resultado.status == false)
+            {
+
+                await Swal.FireAsync("Oops...", $"{resultado.mensaje}", "error");
+                Request.Usuario = "";
+                Request.password = "";
+                Navegador.NavigateTo("/");
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "usuarioid", resultado.data.IdOwner);
+
+                Navegador.NavigateTo("registrando");
+            }
+        }
+        else
+        {
+            await Swal.FireAsync("Oops...", "es necesario ingresar usuario y contraseña", "error");
+        }
+
+        
+    }
+
+
+}
